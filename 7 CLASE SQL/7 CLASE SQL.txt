@@ -1,0 +1,37 @@
+SINTAXIS DE UN PROCEDIMIENTO
+
+CREATE PROC NOMBR_PROCEDIMIENTO
+@parametro1 tipo, @parametro2 tipo , @parametro3 tipo, .... AS
+sentencia 1
+sentencia 2
+sentencia 3
+.
+.
+.
+.
+GO
+
+
+
+
+year(fecha) --> TE DEVUELVE LA EL AÑO DE UNA RESPECTIVA DATA DE FECHA
+month(fecha) --> te devuelve el mes de una respectiva data de fecha
+
+
+
+SINTAXIS DE UNA FUNCIÓN
+
+CREATE FUNCTION DBO.NOMBREFUNCION
+(@PARAMETRO1 TIPO, @PARAMETRO2 TIPO, ....)
+RETURNS TIPO
+BEGIN
+	SENTENCIA1
+	SENTENCIA2
+	.
+	.
+	.
+	.
+	.
+	RETURN VALOR
+
+END

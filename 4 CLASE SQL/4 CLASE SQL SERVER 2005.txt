@@ -1,0 +1,28 @@
+SIN LLAVES
+
+DISTRITO
+l01   lima
+l02   Ancon
+l18   miraflores
+l27   san isidro
+l25   Rimac
+
+
+
+PK (Primary Key): TRABAJA COMO TIPO CLUSTERED
+Unique          : TRABAJA COMO TIPO NON CLUSTERED
+
+
+Indices 
+(250) 
+          --> CLUSTERED : Ordenamiento Fisico . EJEMPLO. Organizo los libros segun materia: 1 geografia, 2 computacion, 3 sociologia,
+          --> NON CLUSTERED : Realiza la busqueda de manera lógica. Ejemplo de la biblioteca:Le doy un codigo a cada libro, un código único.
+
+
+
+
+TAREAAAAAAAAAAA
+WWW.MACROWARE.8K.COM/CASOS
+
+drAerodromo.doc   --> RESOLVEMOS ELABORANDO UNA BASE DE DATOS QUE CUMPLAN CON LAS CONDICIONES DEL ENUNCIADO...
+

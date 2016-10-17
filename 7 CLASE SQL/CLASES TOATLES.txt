@@ -1,0 +1,755 @@
+CREATE DATABASE BDTRES
+
+USE BDTRES
+
+-- LAS DOS LINEAS ANTERIORES SON PARA CONFIGURAR ADECUADAMENTE LA BASE DE DATOS Y LAS SENTENCCIAS SE PUEDAN EJECUTAR
+SELECT * FROM
+
+INSERT DEMO11 VALUES (33,'12345689456','2007-12-20')
+
+GO
+------------EJEMPLO------------
+CREATE TABLE DEMO12(
+CODIGO INT IDENTITY(20,1),
+DATO1 VARCHAR (30),
+DATO2 VARCHAR (30),
+DATO3 NVARCHAR(30))
+
+GO
+INSERT DEMO12 VALUES ('LEONARDO','DANIEL','PATRICIO')
+GO
+SELECT*FROM DEMO12
+-------------- OTRO EJEMPLO--------
+
+CREATE TYPE DBO.APELLIDO FROM VARCHAR(30) NULL		-- estamos creando un tipo de dato: apellido...
+GO
+CREATE TABLE DEMO13(
+CODIGO INT IDENTITY(100,3),
+NOMBRES VARCHAR(40),
+AP_PATERNO APELLIDO,
+AP_MATERNO APELLIDO)
+
+GO
+INSERT DEMO13 VALUES ('DANIEL','RAMOS','CASTAÑEDA')
+GO
+SELECT *FROM DEMO13
+GO
+EXEC SP_HELP DEMO13
+GO
+SELECT*FROM SYS.TABLES  --MUESTRA LAS TABLAS EXISTENTES
+GO
+DROP TYPE DBO.APELLIDO  --PARA BORRAR UN TIPO DE DATO --> APELLIDO
+--Pero tipo de dato apellido no puede borrarse porque esta en uso.
+-----------------ejemplo3---------
+GO
+CREATE TABLE AGENDA1(
+CODIGO INT IDENTITY(100,3), --FIJO -- ESTOS NUMEROS (100,3) me dice que mi codigo identificador comenzará en 100 y crecera de 3 en 3.
+NOMBRE VARCHAR (100),  -- VARIA
+NACIMIENTO DATETIME, -- FIJO
+SEXO CHAR(1) NOT NULL,   --FIJO
+DIRECCION VARCHAR(200), -- VARIA
+DISTRITO VARCHAR(30)) NOT NULL -- VARIA
+GO
+INSERT AGENDA1 VALUES('NATY','1989-05-22','F','XXX','VES')
+INSERT AGENDA1 VALUES('ELI','1986-02-22','F','SSSS','SJL')
+INSERT AGENDA1 VALUES('ANGIE','1972-08-17','F','NNNN','SJL')
+INSERT AGENDA1 (NOMBRE,SEXO) VALUES ('DANIEL','G')
+INSERT AGENDA1 VALUES(NULL,NULL,NULL,NULL,NULL)
+GO
+SELECT * FROM AGENDA1
+
+CREATE TABLE AGENDA2(
+CODIGO INT IDENTITY(100,3), --FIJO -- ESTOS NUMEROS (100,3) me dice que mi codigo identificador comenzará en 100 y crecera de 3 en 3.
+NOMBRE VARCHAR (100) NOT NULL,  -- VARIA
+NACIMIENTO DATETIME, -- FIJO
+SEXO CHAR(1) NOT NULL,   --FIJO
+DIRECCION VARCHAR(200), -- VARIA
+DISTRITO VARCHAR(30))
+
+
+--AGREGANDO CAMPOS A LA AGENDA 2 QUE ES UNA TABLA)
+
+ALTER TABLE AGENDA2 ADD FONO VARCHAR (30) -- ESTAMOS AGREGANDO EL CAMPO O COLUMNA FONO
+
+ALTER TABLE AGENDA2 ADD EMAIL VARCHAR (120) -- ESTAMOS AGREGANDO EL CAMPO O COLUMNA EMAIL
+
+
+INSERT AGENDA2 VALUES('NATY','1989-05-22','F','XXX','VES')
+INSERT AGENDA2 VALUES('ELI','1986-02-22','F','SSSS','SJL')
+INSERT AGENDA2 VALUES('ANGIE','1972-08-17','F','NNNN','SJL')
+INSERT AGENDA2 (NOMBRE,SEXO) VALUES ('DANIEL','G')
+INSERT AGENDA2 VALUES(NULL,NULL,NULL,NULL,NULL)
+SELECT * FROM AGENDA2
+
+ALTER TABLE AGENDA2 DROP COLUMN SEXO
+
+INSERT AGENDA2 (NOMBRE,FONO) VALUES ('CAREVERGA','1236523')
+
+SELECT * FROM AGENDA2
+
+SELECT @@IDENTITY  -- ES UNA VARIABLE DEL SISTEMA...ESTA VARIABLE ALMACENA EL ULTIMO VALOR IDENTITY GENERADO.
+
+SELECT NEWID() -- DEVUELVE UN VALOR DE 16 BYTE EN FORMATO HEXADECIMAL
+
+
+create table transaccion(
+nrotran INT IDENTITY (2,3),
+CODTRAN UNIQUEIDENTIFIER DEFAULT NEWID (),
+DATO VARCHAR (30),
+FECHA DATETIME DEFAULT GETDATE())
+GO
+INSERT TRANSACCION(DATO)VALUES('LECHE')
+INSERT TRANSACCION(DATO)VALUES('MANTEQUILLA')
+GO
+SELECT *FROM TRANSACCION
+GO
+CREATE TABLE DEMO14(
+CODIGO INT IDENTITY(1,1),
+DATO1  VARCHAR(30) DEFAULT 'XXX',
+DATO2 VARCHAR (30),
+FECHA DATETIME DEFAULT GETDATE ())
+GO
+INSERT DEMO14 VALUES ('HOLA','HELLO','1994-05-14')
+INSERT DEMO14(DATO2) VALUES ('CARAMBA')
+GO
+SELECT*FROM DEMO14
+
+-----------USO DEL CHECK------------
+CREATE TABLE AGENDA3(
+CODIGO INT IDENTITY(100,3), --FIJO -- ESTOS NUMEROS (100,3) me dice que mi codigo identificador comenzará en 100 y crecera de 3 en 3.
+NOMBRE VARCHAR (100) NOT NULL,  -- VARIA
+NACIMIENTO DATETIME, -- FIJO
+SEXO CHAR(1) CHECK (SEXO IN ('M','F')))  --FIJO
+
+GO
+
+INSERT AGENDA3 VALUES ('DANIEL','1972-1-18','m') --PUEDE SER MAYUSCULA O MINUSCULA
+
+go
+select * from AGENDA3
+
+GO
+CREATE TABLE DEMO15(
+CODALUMNO INT IDENTITY (200,53),
+NOMALUMNO VARCHAR(50) NOT NULL,
+NOTA1 INT CHECK (NOTA1>=0 AND NOTA1<=20))
+
+GO
+INSERT DEMO15 VALUES ('MARICONCITO',13)
+INSERT DEMO15 VALUES ('CABRITO',20)
+INSERT DEMO15 VALUES ('ROSQUITA',16)
+INSERT DEMO15 VALUES ('GAYCITO',08)
+INSERT DEMO15 VALUES ('ANGELITO',23)
+
+--- Borrar una tabla-----
+DROP TABLE DEMO15 -- HEMOS BORRADO LA TABLA DEMO15
+
+
+CREATE TABLE ALUMNO(
+CODALU INT IDENTITY (1,1) PRIMARY KEY,
+NOMALU VARCHAR(80) NOT NULL,
+DNI VARCHAR (8) UNIQUE,
+SEXO CHAR (1) CHECK (SEXO IN ('M','F')))
+
+GO
+INSERT ALUMNO VALUES ('KOKO GILES','45852461','M')
+GO
+SELECT * FROM ALUMNO
+
+CREATE TABLE ALUMNO2(
+CODALU INT PRIMARY KEY,
+NOMALU VARCHAR(80) NOT NULL,
+DNI VARCHAR (8) UNIQUE,
+SEXO CHAR (1) CHECK (SEXO IN ('M','F')))
+
+GO
+INSERT ALUMNO2 VALUES (7,'KOKO GILES','45852452','M')
+
+GO
+SELECT * FROM ALUMNO2
+
+
+
+
+select * from sys.databases
+go
+use bdtres
+go
+select * from sys.tables
+go
+create table distrito (
+coddis char (3) primary key,
+nomdis varchar(50) unique not null)
+go
+insert distrito values('L01','LIMA')
+insert distrito values('L02','ANCON')
+insert distrito values('L09','RIMAC')
+insert distrito values('L03','BREÑA')
+insert distrito values('L12','CARABAYLLO')
+SELECT * FROM distrito
+
+select * from distrito Order By coddis
+
+-- Intergidad por dominio 
+-- Integridad por Referencial --> REFERENCES -> para hacer referencia FOREING KEY
+-- Integridad por Entidad
+select * from distrito
+
+--- CONTROL + L ME DEVUELVE EL PLAN DE EJECUCIÓN
+
+create table cliente (
+codcli int identity (101,1) primary key nonclustered,
+nomcli varchar(50) unique nonclustered not null,
+ruccli varchar(11) unique nonclustered not null,
+dircli varchar(120),
+codpostal char(3) references distrito (coddis))
+
+insert cliente values('Cordova','01485485620','oficina','L01')
+insert cliente values('Carbajal','01225485620','oficina','L12')
+insert cliente values ('Cisneros','02448682441','sucasa','L03')
+
+select * from cliente
+
+-- ACTUALIZANDO VALORES ---
+
+UPDATE cliente Set nomcli = 'DANIEL RAMOS'
+WHERE codcli=106
+UPDATE cliente Set nomcli = 'CHARLIE PACHAS'
+WHERE codcli=108
+
+UPDATE cliente Set nomcli = 'GABRIELA CORDOVA'
+WHERE codcli=101
+select*from cliente
+
+
+select db_name()
+GO
+
+select * from NORTHWIND.DBO.PRODUCTS
+GO
+SELECT*INTO CATALOGO FROM NORTHWIND.DBO.PRODUCTS
+-- La clausula INTO me permite crear una nueva tabla en función de NORTHWIND.DBO.PRODUCTS y lo llamamos catalogo
+
+GO
+SELECT * FROM CATALOGO
+
+select ProductID, PRODUCTNAME, CATEGORYID INTO nombretabla FROM CATALOGO
+-- La linea anterior estamos creando una nueva tabla con el nombre NOMBRETABLA y los atributos productoID, productoname, categoryid DE LA TABLA CATALGOO.
+
+select * from nombretabla
+GO
+ALTER TABLE nombretabla
+add precioventa money
+
+update nombretabla set precioventa=categoryid*1.25
+
+select product 
+select ProductID, PRODUCTNAME, CATEGORYID, UNITPRICE, UNITSINSTOCK INTO PRODUCTO1 FROM CATALOGO
+select *
+from producto1
+where unitsinstock=0
+ALTER TABLE producto1
+add precioventa money
+update producto1 set precioventa=unitprice*1.25
+
+UPDATE producto1 set precioventa=0 where unitsinstock=0
+select *from producto1
+
+--- eliminar datos
+
+DELETE PRODUCTO1
+
+SELECT * from producto1
+drop table producto1 -- eliminar tabla 
+
+delete producto1 where unitsinstock=0
+create table pruebax(
+codigo int identity (1001,1),
+dato uniqueidentifier default newid(),
+fecha datetime default getdate())
+go
+--- Agregando datos ---
+
+insert pruebax default values
+
+select * from pruebax
+
+delete pruebax 
+-- cuando borramos con delete el campo CODIGO que es identity no se renueva, es decir, si elimino los primeros 7 registros, cuando cree el 8vo registro, elcodigo comenzara desde 1008 y no desde 1001
+
+truncate table pruebax
+
+-- en cambio con trucate table si se renueva el CODIGO identity y es que ahora si eliminamos filas o registros cuando creemos filas se crearan con el codigo renovado..
+
+
+
+
+--- agregando datos usando select			
+insert producto1(productname, unitprice) select productname,unitprice from catalogo
+
+SP_HELP PRODUCTO1
+
+select*from producto1
+---agregando usando TRUNCATE
+truncate table producto1
+
+
+
+select * into  #PROPIO from PRODUCTO1
+
+SELECT * FROM #PROPIO  ---- se guarda en la MEMORIA RAM DEL CLIENTE...  MEMORIA CLIENTE  ... SOLO LO PUEDE VER EL USUARIO QUE LO CREOO...
+
+SELECT * FROM SYS.TABLES --- PARA VER LAS TABLAS DE LA BASE DE DATOS
+
+-- VEMOS QUE LA TABLA #PROPIO NO EXISTE??.. NO APARECE CON LAS DEMAS TABLAS EN LA BASE DE DATOS.
+
+
+
+
+select * into  ##GENERAL from PRODUCTO1
+select * from ##general -- se guarda en la MEMORIA DEL SERVIDOR ... MEMORIA SERVER... solo lo puede visualizar el SERVIDOR.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+use northwind
+go
+select * from sys.tables
+go
+select * from customers
+go
+select customerid, companyname, city, country
+from customers
+go
+select companyname, address, contactname, country
+from customers
+go
+select * from customers where country='uk'
+go
+select companyname, address, city, country
+from customers
+where country ='uk' or country='usa'
+go
+select * from customers where companyname like 'M%' -- RESTRINGE LOS DATOS DE QUIENES SU companyname COMIENZA CON M
+go
+select * from customers where companyname like '%S' -- RESTRINGE LOS DATOS DE QUIENES SU companyname TERMINA CON S
+go
+select * from customers where companyname like 'MA%'-- RESTRINGE LOS DATOS DE QUIENES SU companyname COMIENZA CON MA
+go
+select * from customers where address like 'MA%'
+go
+select * from customers where companyname between 'A%' and 'D%'  -- restringe las filas cuyo COMPANYNAME esta entre (between) A y D
+go
+select * from products where categoryid between 1 and 3
+go
+select * from customers where COUNTRY in ('usa', 'japan', 'italy') -- para no colocar COUNTRY=USA OR COUNTRY=ITALY OR COUNTRY=JAPAN
+go
+select * from customers where COUNTRY='USA' OR COUNTRY ='JAPAN' OR COUNTRY = 'ITALY'  -- EQUIVALENTE DE LA FILA ANTERIOR
+go
+
+select companyname, address, phone, fax, city, country
+from customers 
+where fax is not null
+
+go
+
+select companyname, address, phone, fax, city, country
+from customers
+order by city
+
+go
+
+select companyname, address, phone, fax, city, country
+from customers
+order by city desc  -- se usa la palabra reservada DESC para poder organizar los datos de manera descendente..
+
+go
+
+select companyname, address, phone, fax, city, country
+from customers
+order by country desc , city asc 
+
+go
+
+select companyname, address, phone, fax, city, country
+from customers
+where country='usa'
+order by city desc  
+
+go
+
+select companyname, address, phone, fax, city, country
+from customers
+where companyname like 'M%'
+order by city 
+
+go
+select distinct country from customers  -- Usar DISTINCT para poder hallar valores único y eliminar las duplicadas...es decir, solo nos muetra UNA SOLA VEZ el pais donde tenemos a nuestros clientes..
+
+-- USANDO SOBRE NOMBRES EJEMPLO DOÑACOMPLEJO, COCODRILO, MULATO, MENDIGO, ERMITAÑO.
+
+SELECT companyname, address,phone, fax, city, country
+from customers
+go
+select companyname as CLIENTE, address as DIRECCION, phone as TELEFONO, city as CIUDAD, country as PAIS
+FROM CUSTOMERS
+go
+-- usando literales
+SELECT COMPANYNAME, 'CODIGO -->' as CODIGO, CUSTOMERID
+FROM CUSTOMERS  -- Se crea una nueva columna donde se repite en todas las filas la cadena 'CODIGO-->' y a esa columna la llamamos CODIGO
+
+go
+--uso del TOP--
+
+select top 7 productname, unitprice, unitsinstock --EL TOP 5 me dice que de toda la fila solo seleccione a los 5 primeros..es decir primero ordena todos los productos segun su precio unitario y luego solo selecciona a los 5 PRIMEROS 
+from products
+order by unitprice 
+-- USANDO LA FUNCION COUNT (CONTADOR), AVG (PROMEDIO) , MAX , MIN
+select count(*) 
+from customers
+where COUNTRY ='USA'
+go
+select count(customerid) from customers where country ='usa'
+go
+select count(fax) from customers where country ='usa'  -- como en FAX hay valores NULOS simplemente esos valores no se cuentan...
+go
+select AVG (unitprice) as "PROMERIO PRODUCTO" from PRODUCTS
+go
+select max (unitprice) from PRODUCTS
+go
+select min(unitprice) from products
+go
+select categoryid,productname, unitprice
+from products
+go
+select AVG (unitprice) promeriocategory, categoryid -- PARA OBTENER EL PRECIO PROMEDIO QUE EXISTE POR CADA CATEGORIA USAMOS EL GROUP BY DE LA ULTIMA LÍNEA
+from products
+group by categoryid
+go
+
+select orderid, productid, unitprice, quantity
+from "order details"
+go
+select productid, sum(unitprice*quantity) as subtotal
+from "order details"
+group by productid
+order by productid
+
+select count (companyname), country
+from customers
+group by country
+
+select country, city, count (companyname)
+from customers
+group by country city
+order by country
+go
+--AHORA AGRUPAMOS POR PAIS Y CIUDAD A LA VEZ, Y TENEMOS QUE PONER EN EL SELECT OBLIGATORIAMENTE COUNTRY y CITY o cualquiera de los dos PORQUE SINO NO FUNCAA
+select city, count(companyname)
+from customers
+group by country, city
+having count(companyname)>=3
+
+---HACIENDO USO DEL WITH ROLLUP----
+select orderid, productid, sum(unitprice*quantity) as subtotal
+from "order details"
+group by orderid, productid
+with rollup   --- lo que hace el WITH ROLLUP es agregar mas filas al resultado que son la SUMA de todos los subtotales de los grupos, es decir por cada grupo pone despues de éste su respectivo subtotal..
+ORDER BY orderid, productid
+
+--HACIENDO USO DEL WITH CUBE ---
+
+select orderid, productid, sum(unitprice*quantity) as subtotal
+from "order details"
+group by orderid, productid
+with cube   --- lo que hace el WITH cube es agregar mas filas al resultado que son la SUMA de todos los subtotales de los grupos, es decir por cada grupo pone despues de éste su respectivo subtotal..
+ORDER BY orderid, productid
+
+--haciendo uso del grouping--
+select orderid, grouping(orderid), productid, grouping (productid), sum(unitprice*quantity) as subtotal --se usa el grouping que me devuelve 0 cuando se trata de un dato AGRUPADO, y me devuelve 1 cuando se trata de un dato NO AGRUPADO
+from "order details" 
+group by orderid, productid
+with cube   --- lo que hace el WITH cube es agregar mas filas al resultado que son la SUMA de todos los subtotales de los grupos, es decir por cada grupo pone despues de éste su respectivo subtotal..
+ORDER BY orderid, productid
+
+--USO DEL COMPUTE
+select orderid, productid, unitprice, quantity
+from "order details"
+where orderid<10255
+compute sum (quantity)  -- me muestra al final del resultado la suma de toda las cantidades...
+go
+
+--en las siguientes lineas me mostrará por cada ORDEN (orderid) la sumatoria de todas las cantidades...
+select orderid, productid, unitprice, quantity
+from "order details"
+where orderid<10255 order by orderid
+compute sum(quantity) by orderid
+
+--ahora aparte de la sentencia anteior me mostrará la suma total al final del resultado
+select orderid, productid, unitprice, quantity
+from "order details"
+where orderid<10255 order by orderid
+compute sum(quantity) by orderid
+compute sum(quantity)
+
+--- COMBINACION DE VARIAS TABLAS ----
+
+SELECT  * FROM ORDERS 
+GO
+SELECT a.ORDERID,a.CUSTOMERID , b.lastName, a.orderdate 
+FROM ORDERS a, EMPLOYEES b
+where a.employeeid = b.employeeid
+GO
+
+-- otra FORMA DE HACER EL FOREING KEY entre dos trablas
+
+SELECT a.ORDERID,a.CUSTOMERID ,a.employeeid, b.lastName, a.orderdate
+FROM ORDERS as a
+join EMPLOYEES as b
+on a.employeeid = b.employeeid
+
+-- uniendo tres tablas
+
+
+SELECT a.ORDERID,a.CUSTOMERID ,c.companyname, a.employeeid, b.lastName, a.orderdate
+FROM ORDERS as a
+join EMPLOYEES as b on a.employeeid = b.employeeid
+join customers as c on a.customerid=c.customerid
+go
+
+
+-- uniendo cinco tablas--
+
+SELECT a.ORDERID,a.CUSTOMERID ,c.companyname, a.employeeid, b.lastName, a.orderdate,p.productname,d.quantity,d.unitprice
+FROM ORDERS as a
+join EMPLOYEES as b on a.employeeid = b.employeeid
+join customers as c on a.customerid=c.customerid
+join "order details" as d on a.orderid=d.orderid
+join products as p on d.productid=p.productid
+
+
+
+
+
+
+
+
+
+
+
+use northwind
+go
+
+
+SELECT a.ORDERID,a.CUSTOMERID ,c.companyname, a.employeeid, b.lastName, a.orderdate,p.productname,d.quantity,d.unitprice
+FROM Orders as a
+join EMPLOYEES as b on a.employeeid = b.employeeid
+join customers as c on a.customerid=c.customerid
+join "order details" as d on a.orderid=d.orderid
+join products as p on d.productid=p.productid
+where a.orderid<10255
+order by b.lastname
+compute sum(quantity) by b.lastname
+
+
+
+
+select productname, unitprice,
+(select avg(unitprice) from products) as promedio
+from products
+where unitprice > (select avg(unitprice) from products)
+
+-- SELECCIONAMOS LAS SENTENCIAS Y PRESIONAMOS CONTROL + L
+
+
+-- UTILIZANDO VARIABLES
+
+declare @PROME NUMERIC (12,4) -- PARA CREAR VARIABLES TENEMOS QUE UTILIZAR LA FUNCION DECLARE , EL NOMBRE DE LA VARIABLE Y EL TIPO DE DATO.
+set @PROME = (select avg(unitprice) from products)  -- PARA CREAR VARIABLES TENEMOS QUE ANTEPONERLO EL CARACTER ARROBA @ SI NO NO FUNCIONA
+select productname, unitprice,@prome as promedio
+from products
+where unitprice > @prome
+
+-- otra forma de hacerlo
+
+declare @PROME NUMERIC (12,4) -- PARA CREAR VARIABLES TENEMOS QUE UTILIZAR LA FUNCION DECLARE , EL NOMBRE DE LA VARIABLE Y EL TIPO DE DATO.
+select @PROME = avg(unitprice) from products  -- PARA CREAR VARIABLES TENEMOS QUE ANTEPONERLO EL CARACTER ARROBA @ SI NO NO FUNCIONA
+select productname, unitprice,@prome as promedio
+from products
+where unitprice > @prome
+
+-- otra
+select lastname, country from employees
+go
+select companyname, address, city, country from customers
+where country in (select distinct country from employees)
+go
+insert employees (lastname, firstname, country)
+values ('PACHAS','CARLOS','PORTUGAL')
+
+/*
+CREANDO VISTAS
+*/
+
+CREATE VIEW MIS_CLIENTES1 AS   -- CON CREATE VIEW CREAMOS VISTAS LLAMADA MIS_CLIENTES1
+SELECT COMPANYNAME, ADDRESS, CITY, COUNTRY
+FROM CUSTOMERS
+GO
+
+-- PROBANDO
+SELECT * FROM MIS_CLIENTES1
+
+-- OTRA VISTA
+
+CREATE VIEW MIS_CLIENTES2 AS 
+SELECT COMPANYNAME AS CLIENTE, ADDRESS AS DIRECCION, CITY AS CIUDAD, COUNTRY AS PAIS
+FROM CUSTOMERS
+
+--PROBANDO
+SELECT * FROM MIS_CLIENTES2
+GO
+SELECT CLIENTE, PAIS FROM MIS_CLIENTES2
+GO
+SELECT * FROM MIS_CLIENTES2 ORDER BY PAIS, CIUDAD
+GO
+-- SIGUIENDO
+
+CREATE VIEW MIS_CLIENTES4 AS 
+SELECT CUSTOMERID AS CODIGO, COMPANYNAME AS CLIENTE, ADDRESS AS DIRECCION, CITY AS CIUDAD, COUNTRY AS PAIS
+FROM CUSTOMERS
+
+
+
+--PROBANDO
+SELECT * FROM MIS_CLIENTES4
+GO
+-- CORRECTA  -- SE PUEDE INSERTAR VALORES SIEMPRE QUE LOS ATRIBUTOS DE LA NUEVA VISTA TENGA VALORES NOT NULL
+INSERT MIS_CLIENTES4 VALUES ('DFGA','FDADFSDFADI','AV. TGHDFHPAC AMARU','LIFGMA','FGSPERU')
+--INCORRECTA  -- SI LOS ATRIBUTOS O COLUMNAS DE LAS VISTA TIENEN VALORES NULL ENTONCES NO SE PUEDE AGREGAR VALORES
+INSERT MIS_CLIENTES2 VALUES ('FDADFSDFADI','AV. TGHDFHPAC AMARU','LIFGMA','FGSPERU')
+
+
+
+create view ORDENCOMPLETA as
+SELECT a.ORDERID,a.CUSTOMERID ,c.companyname, a.employeeid, b.lastName, a.orderdate,p.productname,d.quantity,d.unitprice
+FROM Orders as a
+join EMPLOYEES as b on a.employeeid = b.employeeid
+join customers as c on a.customerid=c.customerid
+join "order details" as d on a.orderid=d.orderid
+join products as p on d.productid=p.productid
+
+--- no puedo hacer un insert en una vista en la cual se juntan dos o mas tablas...
+
+select * from ordencompleta
+
+-- una vista no puede tener la clausula ORDER BY o la clausula INTO
+
+
+-- MODIFICANDO LA VISTA
+ALTER view ORDENCOMPLETA as  --- CON ALTER SE PUEDE AGREGAR O QUITAR COLUMNAS A LA VISTA, ES DECIR, SE PUEDEN MODIFICAR...
+SELECT a.ORDERID,c.companyname,b.lastName, a.orderdate,p.productname,d.quantity,d.unitprice, d.discount, 
+		(d.quantity*d.unitprice * (1-d.discount)) as importe
+FROM Orders as a
+join EMPLOYEES as b on a.employeeid = b.employeeid
+join customers as c on a.customerid=c.customerid
+join "order details" as d on a.orderid=d.orderid
+join products as p on d.productid=p.productid
+
+select * from ordencompleta
+
+SELECT * FROM SYS.VIEWS		--  con este codigo podemos ver todas las vistas existentes en neustra base de datos
+
+SELECT * FROM dbo.Invoices 
+
+exec sp_helptext Invoices
+
+-- Carlos Eduardo Pachas --
+-- ENCRIPTANDO UNA VISTA---
+
+CREATE view ORDENCOMPLETA2
+WITH ENCRYPTION as  --- LA FRASE WITH ENCRYPTION nos permite encriptar la vista
+SELECT a.ORDERID,c.companyname,b.lastName, a.orderdate,p.productname,d.quantity,d.unitprice, d.discount, 
+		(d.quantity*d.unitprice * (1-d.discount)) as importe
+FROM Orders as a
+join EMPLOYEES as b on a.employeeid = b.employeeid
+join customers as c on a.customerid=c.customerid
+join "order details" as d on a.orderid=d.orderid
+join products as p on d.productid=p.productid
+
+--probando
+select * from ordencompleta2 -- la vista encriptada se visualiza normalmente
+
+--pero.....
+
+exec sp_helptext ordencompleta2 -- al ejecutar esto me sale que la vista esta encriptada...
+
+
+/* DONDE SE GUARDA TODO???????????????
+*/
+
+SELECT * FROM SYS.OBJECTS
+GO
+SELECT * FROM SYS.OBJECTS WHERE TYPE='V'  -- PUEDO VISUALIZAR TODOS LOS OBJETOS QUE SON VISTAS
+GO
+SELECT * FROM SYS.SYSCOMMENTS -- puedo ver todos los objetos creados
+GO
+
+
+
+--LUEGO HACEMOS UNA COMBINACION DE TODO LO ANTERIOR....
+SELECT O.NAME , C.TEXT 
+FROM SYS.OBJECTS AS O 
+JOIN SYS.SYSCOMMENTS AS C ON O.OBJECT_ID = C.ID
+WHERE O.TYPE = 'V'
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

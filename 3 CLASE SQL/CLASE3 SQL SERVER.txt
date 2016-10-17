@@ -1,0 +1,3 @@
+El dato IDENTITY es único en la tabla 
+
+NOT NULL --> EL CAMPO NO ME VA ACEPTAR VALORES VACIOS O NULOS.
